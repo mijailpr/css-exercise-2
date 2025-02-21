@@ -1,0 +1,450 @@
+/* Variables y configuración base */
+:root {
+    --card-min-width: 280px;
+    --card-padding: 1rem;
+    --card-gap: 1rem;
+    --transition-speed: 0.3s;
+
+    /* Room type colors */
+    --basic-color: #F2A950;
+    --intermediate-color: #F27F1B;
+    --immersive-color: #BF5B21;
+}
+
+body.modal-open {
+    overflow: hidden;
+}
+
+.page-wrapper {
+    height: 100vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-color) transparent;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+}
+
+.page-wrapper::-webkit-scrollbar {
+    width: 6px;
+}
+
+.page-wrapper::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.page-wrapper::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color);
+    border-radius: 6px;
+}
+
+.page-wrapper::-webkit-scrollbar-thumb:hover {
+    background-color: var(--secondary-color);
+}
+
+body.modal-open .page-wrapper {
+    overflow: hidden;
+}
+
+/* Contenedor principal */
+.rooms-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(var(--card-min-width), 1fr));
+    gap: var(--card-gap);
+    width: 100%;
+    margin: 0 auto;
+    padding: 1.5rem var(--card-gap) var(--card-gap);
+    background: white;
+    box-sizing: border-box;
+}
+
+/* Estilos base de la tarjeta */
+.room-card {
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-md);
+    box-shadow: var(--box-shadow);
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: var(--spacing-sm);
+    min-height: 150px;
+    transition: transform 0.3s ease;
+}
+
+.room-card:hover {
+    transform: translateY(-2px);
+}
+
+/* Room type specific styles */
+.room-card.basic .room-type,
+.room-card.basic .price-tag,
+.room-card.basic .room-id {
+    color: var(--basic-color);
+}
+
+.room-card.intermediate .room-type,
+.room-card.intermediate .price-tag,
+.room-card.intermediate .room-id {
+    color: var(--intermediate-color);
+}
+
+.room-card.immersive .room-type,
+.room-card.immersive .price-tag,
+.room-card.immersive .room-id {
+    color: var(--immersive-color);
+}
+
+/* Button colors based on room type */
+.room-card.basic .btn-primary {
+    background-color: var(--basic-color);
+}
+
+.room-card.intermediate .btn-primary {
+    background-color: var(--intermediate-color);
+}
+
+.room-card.immersive .btn-primary {
+    background-color: var(--immersive-color);
+}
+
+.room-card.basic .btn-primary:hover {
+    background-color: color-mix(in srgb, var(--basic-color) 85%, black);
+}
+
+.room-card.intermediate .btn-primary:hover {
+    background-color: color-mix(in srgb, var(--intermediate-color) 85%, black);
+}
+
+.room-card.immersive .btn-primary:hover {
+    background-color: color-mix(in srgb, var(--immersive-color) 85%, black);
+}
+
+/* Button colors based on room type - solo para el botón de "Registrar grupo" */
+.room-card.basic [data-action="checkin"] {
+    background-color: var(--basic-color);
+}
+
+.room-card.intermediate [data-action="checkin"] {
+    background-color: var(--intermediate-color);
+}
+
+.room-card.immersive [data-action="checkin"] {
+    background-color: var(--immersive-color);
+}
+
+.room-card.basic [data-action="checkin"]:hover {
+    background-color: color-mix(in srgb, var(--basic-color) 85%, black);
+}
+
+.room-card.intermediate [data-action="checkin"]:hover {
+    background-color: color-mix(in srgb, var(--intermediate-color) 85%, black);
+}
+
+.room-card.immersive [data-action="checkin"]:hover {
+    background-color: color-mix(in srgb, var(--immersive-color) 85%, black);
+}
+
+/* El botón "Gestionar" siempre usa el color primario */
+button[data-action="manage"] {
+    background-color: var(--primary-color) !important;
+}
+
+button[data-action="manage"]:hover {
+    background-color: color-mix(in srgb, var(--primary-color) 85%, black) !important;
+}
+
+/* Encabezado de la tarjeta */
+.room-type {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 500;
+}
+
+.room-id {
+    font-size: 0.9em;
+    color: inherit;
+}
+
+/* Contenido de la tarjeta */
+.room-info {
+    display: grid;
+    gap: 0.75rem;
+    min-height: 60px;
+}
+
+.room-description {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+}
+
+.room-icon {
+    font-size: 1.25em;
+    flex-shrink: 0;
+}
+
+.room-price {
+    margin-top: auto;
+    text-align: right;
+}
+
+.price-tag {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: var(--primary-color, #007bff);
+}
+
+.price-detail {
+    font-size: 0.8em;
+    color: var(--text-secondary, #666);
+}
+
+/* Estado de la sala */
+.room-status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border-color, #eee);
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.status-available .status-dot {
+    background-color: var(--secondary-color);
+}
+
+.status-occupied .status-dot {
+    background-color: var(--primary-color);
+}
+
+.status-available .status-indicator span {
+    color: var(--secondary-color);
+}
+
+.status-occupied .status-indicator span {
+    color: var(--primary-color);
+}
+
+/* Botones */
+.btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color var(--transition-speed) ease;
+}
+
+.btn-primary {
+    background-color: var(--primary-color, #007bff);
+    color: white;
+}
+
+/* Estilos para los botones circulares de control numérico */
+.input-with-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 1.2em;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    transition: background-color var(--transition-speed) ease;
+}
+
+.btn-circle:hover {
+    background-color: color-mix(in srgb, var(--primary-color) 85%, black);
+}
+
+.btn-circle:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+#groupSize {
+    width: 60px;
+    text-align: center;
+    font-size: 1.1em;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 0.25rem;
+}
+
+.total-section {
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: var(--border-radius);
+}
+
+.total-section h3 {
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+}
+
+.total-section p {
+    margin: 0.25rem 0;
+    display: flex;
+    justify-content: space-between;
+    color: var(--text-secondary);
+}
+
+.total-section p:last-child {
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--border-color);
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+/* Modal */
+.modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-color) transparent;
+}
+
+.modal::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modal::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.modal::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color);
+    border-radius: 6px;
+}
+
+.modal::-webkit-scrollbar-thumb:hover {
+    background-color: var(--secondary-color);
+}
+
+.modal-content {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    width: 100%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+/* Estilos para órdenes pendientes */
+.room-orders {
+    margin: 0;
+}
+
+.pending-orders {
+    background: var(--background);
+    border-radius: 12px;
+    padding: 0.5rem;
+}
+
+.pending-orders-badge {
+    background: var(--primary-color);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    display: inline-block;
+}
+
+.orders-separator {
+    height: 1px;
+    background: var(--border-color);
+    margin: 0.5rem 0;
+    opacity: 0.5;
+}
+
+.total-to-pay {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+    color: var(--text-color);
+}
+
+.total-to-pay .total-amount {
+    font-weight: 600;
+    color: var(--secondary-color);
+    font-size: 1rem;
+    margin-left: 0.5rem;
+}
+
+.pending-orders-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.pending-orders-total .total-amount {
+    font-weight: 600;
+    color: var (--secondary-color);
+    font-size: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .rooms-container {
+        gap: 0.75rem;
+        padding: 0.75rem;
+    }
+
+    .room-card {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .rooms-container {
+        grid-template-columns: 1fr;
+    }
+
+    .room-card {
+        min-height: 130px;
+        padding: var(--spacing-sm);
+        font-size: 0.9rem;
+    }
+
+    .modal-content {
+        margin: 0;
+        border-radius: 0;
+        height: 100vh;
+    }
+}
